@@ -16,3 +16,17 @@ stages:
         command: |
           composer install --no-interaction
           terminus auth login --machine-token=
+      - type: shell
+        commmand: |
+          cd tests/circle
+          # Make a new multidev env from a vanilla D8 site.
+          /bin/bash ./create-fresh-d8-site.sh
+          # Set up the D8 site with contrib migrate contrib modules and enable
+          # those modules on Panetheon.
+          /bin/bash ./setup-d8-repo.sh
+          # Configure the migration, creating exportable, re-runnable configuration.
+          /bin/bash ./configure-migrations.sh
+          # Run the actual migration on Pantheon.
+          /bin/bash ./run-migration-on-pantheon.sh
+          # Check that a node actually migrated.
+          /bin/bash ./verify-migration-succeeded.sh

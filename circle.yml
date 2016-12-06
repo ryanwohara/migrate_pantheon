@@ -1,7 +1,7 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: rohara/pantheon:0.1
+  - image: rohara/pantheon:0.2
     env:
       - TERMINUS_ENV=ci{{$CIRCLE_BUILD_NUM}}
       - TERMINUS_SITE=migrate-pantheon-d8
@@ -9,7 +9,7 @@ containerInfo:
       - PANTHEON_D7_BRANCH=dev
 stages:
   build:
-    workDir: /home/ubuntu/migrate_pantheon
+    workDir: /root/migrate_pantheon
     steps:
       - type: checkout
       - type: cache-restore
@@ -38,4 +38,4 @@ stages:
       - type: cache-save
         key: migrate-pantheon-{{ .Branch }}-{{ checksum "composer.lock" }}
         paths:
-          -  /home/ubuntu/.composer/cache
+          -  /root/.composer/cache

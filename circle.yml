@@ -10,32 +10,32 @@ containerInfo:
 stages:
   build:
     workDir: /root/migrate_pantheon
-      steps:
-        - type: checkout
-        - type: cache-restore
-          key: migrate-pantheon-{{ .Branch }}-{{ checksum "composer.lock" }}
-        - type: shell
-          command: |
-            composer install --no-interaction
-            terminus auth login --machine-token=$TerminusToken
-        - type: shell
-          commmand: |
-            # Make a new multidev env from a vanilla D8 site.
-            cd tests/circle && ./create-fresh-d8-site.sh
+    steps:
+      - type: checkout
+      - type: cache-restore
+        key: migrate-pantheon-{{ .Branch }}-{{ checksum "composer.lock" }}
+      - type: shell
+        command: |
+          composer install --no-interaction
+          terminus auth login --machine-token=$TerminusToken
+      - type: shell
+        commmand: |
+          # Make a new multidev env from a vanilla D8 site.
+          cd tests/circle && ./create-fresh-d8-site.sh
 
-            # Set up the D8 site with contrib migrate contrib modules and enable
-            # those modules on Panetheon.
-            cd tests/circle && ./setup-d8-repo.sh
+          # Set up the D8 site with contrib migrate contrib modules and enable
+          # those modules on Panetheon.
+          cd tests/circle && ./setup-d8-repo.sh
 
-            # Configure the migration, creating exportable, re-runnable configuration.
-            cd tests/circle && ./configure-migrations.sh
+          # Configure the migration, creating exportable, re-runnable configuration.
+          cd tests/circle && ./configure-migrations.sh
 
-            # Run the actual migration on Pantheon.
-            cd tests/circle && ./run-migration-on-pantheon.sh
+          # Run the actual migration on Pantheon.
+          cd tests/circle && ./run-migration-on-pantheon.sh
 
-            # Check that a node actually migrated.
-            cd tests/circle && ./verify-migration-succeeded.sh
-        - type: cache-save
-          key: r101-frontend-{{ .Branch }}-{{ checksum "composer.lock" }}
-          paths:
-            - /root/.composer/cache
+          # Check that a node actually migrated.
+          cd tests/circle && ./verify-migration-succeeded.sh
+      - type: cache-save
+        key: r101-frontend-{{ .Branch }}-{{ checksum "composer.lock" }}
+        paths:
+          - /root/.composer/cache

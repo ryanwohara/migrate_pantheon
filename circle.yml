@@ -36,6 +36,6 @@ stages:
           # Check that a node actually migrated.
           cd tests/circle && ./verify-migration-succeeded.sh
       - type: cache-save
-        key: r101-frontend-{{ .Branch }}-{{ checksum "composer.lock" }}
+        key: migrate-pantheon-{{ .Branch }}-{{ checksum "composer.lock" }}
         paths:
           - /root/.composer/cache

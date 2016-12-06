@@ -15,7 +15,7 @@ stages:
       - type: shell
         command: |
           composer install --no-interaction
-          terminus auth login --machine-token=$TerminusToken
+          terminus auth login --machine-token=
       - type: shell
         commmand: |
           # Make a new multidev env from a vanilla D8 site.

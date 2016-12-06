@@ -12,8 +12,6 @@ stages:
     workDir: /home/ubuntu/migrate_pantheon
     steps:
       - type: checkout
-      - type: cache-restore
-        key: migrate-pantheon-{{ .Branch }}-{{ checksum "composer.lock" }}
       - type: shell
         command: |
           composer install --no-interaction
@@ -35,7 +33,3 @@ stages:
 
           # Check that a node actually migrated.
           cd tests/circle && ./verify-migration-succeeded.sh
-      - type: cache-save
-        key: migrate-pantheon-{{ .Branch }}-{{ checksum "composer.lock" }}
-        paths:
-          - /root/.composer/cache

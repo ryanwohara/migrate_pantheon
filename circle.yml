@@ -23,7 +23,7 @@ experimental:
           - type: shell
             commmand: |
               # Make a new multidev env from a vanilla D8 site.
-              - cd tests/circle && ./create-fresh-d8-site.sh
+              cd tests/circle && ./create-fresh-d8-site.sh
 
               # Set up the D8 site with contrib migrate contrib modules and enable
               # those modules on Panetheon.
@@ -38,6 +38,6 @@ experimental:
               # Check that a node actually migrated.
               cd tests/circle && ./verify-migration-succeeded.sh
           - type: cache-save
-            key: r101-frontend-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            key: r101-frontend-{{ .Branch }}-{{ checksum "composer.lock" }}
             paths:
               - /root/.composer/cache

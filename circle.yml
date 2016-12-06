@@ -9,7 +9,7 @@ containerInfo:
       - PANTHEON_D7_BRANCH=dev
 stages:
   build:
-    workDir: /root/migrate_pantheon
+    workDir: /home/ubuntu/migrate_pantheon
     steps:
       - type: checkout
       - type: cache-restore
